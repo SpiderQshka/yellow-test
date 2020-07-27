@@ -1,0 +1,43 @@
+@import '../config'
+    
+%btn-shared
+    border: 3px solid $color-neutral-lightest
+    background-color: inherit
+    color: $color-neutral-lightest
+    line-height: 20px
+    font-size: 20px
+    border-radius: 50px
+    padding: 20px 35px
+    cursor: pointer
+    font-family: "SFUI Bold"
+
+.btnRounded
+    @extend %btn-shared
+    padding: 10px
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 60px
+    height: 60px
+    border-radius: 50%
+
+.btnNeutral
+    @extend %btn-shared
+
+.btnFullWidth
+    width: 100%
+
+.btnPrimary
+    @extend %btn-shared
+    color: $color-primary
+    border-color: $color-primary
+
+.btnSecondary
+    @extend %btn-shared
+    color: $color-secondary
+    border-color: $color-secondary
+
+.btnFab
+    @extend %btn-shared
+    padding: 0
+    border: none

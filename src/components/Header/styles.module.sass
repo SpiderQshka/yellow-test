@@ -1,0 +1,80 @@
+@import "styles/config.sass"
+
+.header
+    width: 100%
+    background-color: $color-primary
+    .headerContent
+        height: $header-height
+        padding: 0 25px
+        display: flex
+        justify-content: space-between
+        align-items: center
+        position: relative
+        .navigation
+            display: flex
+            .btnsContainer
+                display: flex
+                align-items: center
+                margin-left: auto
+                .filterBtn
+                    max-width: 40px
+                .menuBtn
+                    margin-left: 40px
+                    max-width: 40px
+            .menuDesktop
+                display: none
+                .item
+                    padding: 15px 0
+                    margin: 0 20px
+                    font-family: "SFUI Bold"
+                    position: relative
+                    display: inline-block
+                    color: $color-neutral-lightest
+                    text-transform: uppercase
+                    font-size: 15px
+                    &:last-of-type
+                        margin-right: 40px
+                .item.active
+                    &::after
+                        content: ""
+                        height: 2px
+                        position: absolute
+                        bottom: 0
+                        left: 0
+                        width: 100%
+                        background-color: $color-neutral-lightest
+            .menuMobile
+                position: absolute
+                top: $header-height
+                left: 0
+                right: 0
+                min-height: calc(100vh - #{$header-height})
+                background-color: $color-neutral-lightest
+                display: none
+                flex-direction: column
+                justify-content: center
+                background-color: $color-neutral-lightest
+                z-index: 9999
+                .item
+                    display: block
+                    padding: 20px
+                    text-align: center
+                    font-family: "SFUI Bold"
+                    font-size: 30px
+                    text-transform: uppercase
+                    color: $color-neutral-dark
+                .item.active
+                    color: $color-primary
+        .navigation.hide
+            display: none
+.header.open
+    background-color: $color-neutral-lightest
+    .headerContent
+        .navigation
+            .btnsContainer
+                .filterBtn
+                    display: none
+            .menuMobile
+                display: flex
+
+@import "./media.module"

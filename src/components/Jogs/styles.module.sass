@@ -1,0 +1,77 @@
+@import "styles/config.sass"
+    
+.jogsPlaceholderContainer
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    height: calc(100vh - #{$header-height})
+    min-height: 400px
+    .jogsPlaceholder
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        align-items: center
+        padding: 20px
+        .iconContainer
+            max-width: 200px
+            margin-bottom: 70px
+            display: flex
+            flex-direction: column
+            align-items: center
+            .iconLabel
+                margin-top: 30px
+                font-family: "SFUI Regular"
+                font-size: 24px
+                text-align: center
+                color: $color-neutral
+.jogsPlaceholderContainer.autoHeight
+    height: auto
+.datePickerContainer
+    background-color: $color-neutral-light
+    .datePickerContent
+        max-width: 500px
+        padding: 15px 30px
+        margin: 0 auto
+        display: flex
+        align-items: center
+        justify-content: space-between
+        .inputContainer
+            .inputText
+                color: $color-neutral
+                font-family: "SFUI Regular"
+                margin-right: 15px
+            .input
+                border-radius: 10px
+                border: 2px solid $color-neutral
+                padding: 10px
+.jogsList
+    display: flex
+    flex-direction: column
+    align-items: center
+    .divide
+        width: 100%
+        height: 2px
+        background-color: $color-neutral-light
+    .jogElement
+        display: inline-flex
+        justify-content: space-between
+        padding: 45px 60px
+        .iconContainer
+            max-width: 90px
+        .jogInfo
+            margin-left: 50px
+            .date, .speed, .distance, .time
+                font-family: "SFUI Regular"
+                color: $color-neutral
+                margin-bottom: 10px
+                .accent
+                    color: $color-neutral-dark
+.addJogBtn
+    background-color: $color-neutral-lightest
+    position: fixed
+    bottom: 30px
+    right: 30px
+
+
+@import "./media"

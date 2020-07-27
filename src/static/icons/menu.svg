@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="28pt" height="23pt" viewBox="0 0 28 23">
+<g enable-background="new">
+<g>
+<clipPath id="cp0">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 0 23 L 28 23 L 28 -1 L 0 -1 L 0 23 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp0)">
+<clipPath id="cp1">
+<path transform="matrix(1,0,0,-1,0,23)" d="M -322 -617 L 53 -617 L 53 50 L -322 50 Z "/>
+</clipPath>
+<g clip-path="url(#cp1)">
+<g>
+<clipPath id="cp2">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 0 0 L 28 0 L 28 23 L 0 23 Z "/>
+</clipPath>
+<g clip-path="url(#cp2)">
+<clipPath id="cp3">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 28 21.75586 C 28 22.49984 27.53331 23 26.83181 23 L 1.168186 23 C .466691 23 0 22.49984 0 21.75586 L 0 19.25195 C 0 18.50172 .466691 18 1.168186 18 L 26.83181 18 C 27.53331 18 28 18.50172 28 19.25195 L 28 21.75586 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp3)">
+<clipPath id="cp4">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 0 0 L 28 0 L 28 23 L 0 23 Z "/>
+</clipPath>
+<g clip-path="url(#cp4)">
+<path transform="matrix(1,0,0,-1,0,23)" d="M -5 13 L 33 13 L 33 28 L -5 28 Z " fill="#ffffff"/>
+</g>
+</g>
+<clipPath id="cp5">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 28 12.74805 C 28 13.49984 27.53331 14 26.83181 14 L 1.168186 14 C .466691 14 0 13.49984 0 12.74805 L 0 10.25195 C 0 9.500156 .466691 9 1.168186 9 L 26.83181 9 C 27.53331 9 28 9.500156 28 10.25195 L 28 12.74805 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp5)">
+<clipPath id="cp6">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 0 0 L 28 0 L 28 23 L 0 23 Z "/>
+</clipPath>
+<g clip-path="url(#cp6)">
+<path transform="matrix(1,0,0,-1,0,23)" d="M -5 4 L 33 4 L 33 19 L -5 19 Z " fill="#ffffff"/>
+</g>
+</g>
+<clipPath id="cp7">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 28 3.75 C 28 4.499064 27.53331 5 26.83181 5 L 1.168186 5 C .466691 5 0 4.499064 0 3.75 L 0 1.25 C 0 .5009363 .466691 0 1.168186 0 L 26.83181 0 C 27.53331 0 28 .5009363 28 1.25 L 28 3.75 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp7)">
+<clipPath id="cp8">
+<path transform="matrix(1,0,0,-1,0,23)" d="M 0 0 L 28 0 L 28 23 L 0 23 Z "/>
+</clipPath>
+<g clip-path="url(#cp8)">
+<path transform="matrix(1,0,0,-1,0,23)" d="M -5 -5 L 33 -5 L 33 10 L -5 10 Z " fill="#ffffff"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
