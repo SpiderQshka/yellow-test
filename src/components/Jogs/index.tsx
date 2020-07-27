@@ -90,7 +90,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
           <ul className={styles.jogsList}>
             {filteredJogs.length ? (
               filteredJogs.map(({ date, distance, speed, time }, i) => (
-                <>
+                <div className={styles.jogElementContainer}>
                   <li key={i} className={styles.jogElement}>
                     <div className={styles.iconContainer}>
                       <img src={jogIcon} alt="Jogging guy" />
@@ -113,8 +113,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
                       </p>
                     </div>
                   </li>
-                  <div className={styles.divide}></div>
-                </>
+                </div>
               ))
             ) : (
               <div
@@ -131,6 +130,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
               </div>
             )}
           </ul>
+
           <button
             className={`${buttons.btnRounded} ${buttons.btnPrimary} ${styles.addJogBtn}`}
             onClick={() => setIsAddJogModalOpen(true)}

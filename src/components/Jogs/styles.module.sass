@@ -45,28 +45,32 @@
                 border-radius: 10px
                 border: 2px solid $color-neutral
                 padding: 10px
+// .jogsListContainer
+//     display: flex
+//     justify-content: center
 .jogsList
-    display: flex
-    flex-direction: column
-    align-items: center
-    .divide
-        width: 100%
-        height: 2px
-        background-color: $color-neutral-light
-    .jogElement
-        display: inline-flex
-        justify-content: space-between
-        padding: 45px 60px
-        .iconContainer
-            max-width: 90px
-        .jogInfo
-            margin-left: 50px
-            .date, .speed, .distance, .time
-                font-family: "SFUI Regular"
-                color: $color-neutral
-                margin-bottom: 10px
-                .accent
-                    color: $color-neutral-dark
+
+    .jogElementContainer
+        border-bottom: 2px solid $color-neutral-light
+        .jogElement
+            display: flex
+            justify-content: space-between
+            align-items: center
+            padding: 45px 60px
+            max-width: 300px
+            margin: 0 auto
+            .iconContainer
+                max-width: 90px
+            .jogInfo
+                margin-left: 50px
+                .date, .speed, .distance, .time
+                    font-family: "SFUI Regular"
+                    color: $color-neutral
+                    margin-bottom: 10px
+                    .accent
+                        color: $color-neutral-dark
+                .time
+                    margin-bottom: 0
 .addJogBtn
     background-color: $color-neutral-lightest
     position: fixed

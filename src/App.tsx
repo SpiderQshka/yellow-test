@@ -7,45 +7,37 @@ import { Redirect, Switch, Route } from "react-router-dom";
 import { JogItem } from "types";
 import { Info } from "components/Info";
 import { ContactUs } from "components/ContactUs";
-import { logIn, getCurrentUser, getJogs } from "api";
+import { getJogs } from "api";
+import { formatJogs, getToken, setToken } from "helpers";
 
 const App: React.FunctionComponent = () => {
-  const token = window.localStorage.getItem("token") || null;
+  let token = getToken();
   const [jogs, setJogs] = useState<JogItem[]>([]);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
   const addNewJog = (newJog: JogItem) => setJogs([...jogs, newJog]);
-
-  useEffect(() => {
-    if (!token)
-      logIn().then((token) => {
-        window.localStorage.setItem("token", token);
-      });
-    // getCurrentUser(token as string);
+  const setTokenHandler = (tokenFromApi: string) => {
+    setToken(tokenFromApi);
+    token = getToken();
+    updateJogs();
+  };
+  const updateJogs = () =>
     getJogs(token as string).then((jogsFromApi) => {
-      const formattedJogs: JogItem[] = jogsFromApi.map(
-        ({ date, distance, time }) => {
-          return {
-            date: new Date(date),
-            distance,
-            speed: +(distance / time).toFixed(2),
-            time,
-          };
-        }
-      );
+      const formattedJogs = formatJogs(jogsFromApi);
       setJogs([...jogs, ...formattedJogs]);
     });
-  }, []);
+  useEffect(() => {
+    if (token) updateJogs();
+  }, [token]);
 
   return (
     <>
       <Header
-        areJogsExist={!!jogs.length}
         isDatePickerOpen={isDatePickerOpen}
         setIsDatePickerOpen={setIsDatePickerOpen}
       />
       <Switch>
         <Route exact path="/">
-          <Login />
+          <Login token={token} setTokenHandler={setTokenHandler} />
         </Route>
         <Route exact path="/jogs">
           <Jogs

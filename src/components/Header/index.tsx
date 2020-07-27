@@ -10,13 +10,11 @@ import buttons from "styles/components/buttons.module.sass";
 import { useLocation, Link } from "react-router-dom";
 
 export interface HeaderProps {
-  areJogsExist: boolean;
   setIsDatePickerOpen: (isOpen: boolean) => void;
   isDatePickerOpen: boolean;
 }
 
 export const Header: React.FunctionComponent<HeaderProps> = ({
-  areJogsExist,
   isDatePickerOpen,
   setIsDatePickerOpen,
 }) => {
