@@ -52,7 +52,7 @@ const App: React.FunctionComponent = () => {
     });
 
   useEffect(() => {
-    updateJogs();
+    if (token) updateJogs();
   }, [token]);
 
   return (
