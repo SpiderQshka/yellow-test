@@ -16,7 +16,10 @@
     "react-flatpickr": "^3.10.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
+    "path": "^0.12.7"
   },
   "scripts": {
     "start": "node server.js",
@@ -42,9 +45,6 @@
   },
   "devDependencies": {
     "@types/react-flatpickr": "^3.8.1",
-    "@types/react-router-dom": "^5.1.5",
-    "express": "^4.17.1",
-    "express-favicon": "^2.0.1",
-    "path": "^0.12.7"
+    "@types/react-router-dom": "^5.1.5"
   }
 }
