@@ -4,29 +4,55 @@ import { Header } from "./components/Header/index";
 import { Login } from "./components/Login/index";
 import { Jogs } from "./components/Jogs/index";
 import { Redirect, Switch, Route } from "react-router-dom";
-import { JogItem } from "types";
+import { JogItem, FormattedJogItem } from "types";
 import { Info } from "components/Info";
 import { ContactUs } from "components/ContactUs";
-import { getJogs } from "api";
-import { formatJogs, getToken, setToken } from "helpers";
+import { getJogs, setNewJog, updateExistingJog } from "api";
+import { formatJogs, getToken, setToken, parceDate } from "helpers";
 
 const App: React.FunctionComponent = () => {
   let token = getToken();
-  const [jogs, setJogs] = useState<JogItem[]>([]);
+
+  const [jogs, setJogs] = useState<FormattedJogItem[]>([]);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const addNewJog = (newJog: JogItem) => setJogs([...jogs, newJog]);
+
+  const addNewJog = (newJog: JogItem) => {
+    setNewJog(
+      token as string,
+      parceDate(newJog.date),
+      newJog.time,
+      newJog.distance
+    ).then((newJog) => setJogs([...jogs, newJog]));
+  };
+
+  const putJog = (existingJog: FormattedJogItem) => {
+    updateExistingJog(token as string, existingJog).then((updatedJog) => {
+      let updatedJogIndex: number = 0;
+      jogs.forEach((jog, i) => {
+        if (jog.id === updatedJog.id) updatedJogIndex = i;
+      });
+
+      const updatedJogs = [...jogs];
+      updatedJogs[updatedJogIndex] = updatedJog;
+
+      setJogs(updatedJogs);
+    });
+  };
+
   const setTokenHandler = (tokenFromApi: string) => {
     setToken(tokenFromApi);
     token = getToken();
     updateJogs();
   };
+
   const updateJogs = () =>
     getJogs(token as string).then((jogsFromApi) => {
       const formattedJogs = formatJogs(jogsFromApi);
       setJogs([...jogs, ...formattedJogs]);
     });
+
   useEffect(() => {
-    if (token) updateJogs();
+    updateJogs();
   }, [token]);
 
   return (
@@ -40,17 +66,22 @@ const App: React.FunctionComponent = () => {
           <Login token={token} setTokenHandler={setTokenHandler} />
         </Route>
         <Route exact path="/jogs">
-          <Jogs
-            jogs={jogs}
-            addNewJog={addNewJog}
-            isDatePickerOpen={isDatePickerOpen}
-          />
+          {token ? (
+            <Jogs
+              jogs={jogs}
+              addNewJog={addNewJog}
+              isDatePickerOpen={isDatePickerOpen}
+              putJog={putJog}
+            />
+          ) : (
+            <Redirect to="/" />
+          )}
         </Route>
         <Route exact path="/info">
-          <Info />
+          {token ? <Info /> : <Redirect to="/" />}
         </Route>
         <Route exact path="/contact-us">
-          <ContactUs />
+          {token ? <ContactUs /> : <Redirect to="/" />}
         </Route>
         <Route>
           <Redirect to="/" />

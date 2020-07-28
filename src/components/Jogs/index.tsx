@@ -5,25 +5,31 @@ import jogIcon from "static/icons/jogIcon.svg";
 import more from "static/icons/more.svg";
 import buttons from "styles/components/buttons.module.sass";
 import { parceDate, isDateInRange } from "helpers";
-import { JogItem } from "types";
-import { Modal } from "components/Modal";
+import { JogItem, FormattedJogItem } from "types";
+import { CreateJogModal } from "components/Modals/CreateJogModal";
+import { UpdateJogModal } from "components/Modals/UpdateJogModal";
 
 export interface JogsProps {
-  jogs: JogItem[];
+  jogs: FormattedJogItem[];
   addNewJog: (jog: JogItem) => void;
+  putJog: (jog: FormattedJogItem) => void;
   isDatePickerOpen: boolean;
 }
 
 export const Jogs: React.FunctionComponent<JogsProps> = ({
   jogs,
   addNewJog,
+  putJog,
   isDatePickerOpen,
 }) => {
-  const [isAddJogModalOpen, setIsAddJogModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [range, setRange] = useState<{ from: Date | null; to: Date | null }>({
     from: null,
     to: null,
   });
+  const [jogForUpdate, setJogForUpdate] = useState<FormattedJogItem | null>(
+    null
+  );
 
   const filteredJogs = jogs.filter((jog) =>
     isDateInRange(jog.date, range.from, range.to)
@@ -31,10 +37,16 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
 
   return (
     <>
-      <Modal
+      <CreateJogModal
         addNewJog={addNewJog}
-        isModalOpen={isAddJogModalOpen}
-        setIsModalOpen={setIsAddJogModalOpen}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
+      <UpdateJogModal
+        putJog={putJog}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        jogForUpdate={jogForUpdate}
       />
       {!jogs.length ? (
         <div className={styles.jogsPlaceholderContainer}>
@@ -45,7 +57,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
             </div>
             <button
               className={`${buttons.btnSecondary} ${styles.createFirstJogBtn}`}
-              onClick={() => setIsAddJogModalOpen(true)}
+              onClick={() => setIsModalOpen(true)}
             >
               Create your first jog
             </button>
@@ -87,34 +99,51 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
               </div>
             </div>
           )}
+
           <ul className={styles.jogsList}>
-            {filteredJogs.length ? (
-              filteredJogs.map(({ date, distance, speed, time }, i) => (
-                <div className={styles.jogElementContainer}>
-                  <li key={i} className={styles.jogElement}>
-                    <div className={styles.iconContainer}>
-                      <img src={jogIcon} alt="Jogging guy" />
-                    </div>
-                    <div className={styles.jogInfo}>
-                      <p className={styles.date}>
-                        {date ? parceDate(date) : "Date not found"}
-                      </p>
-                      <p className={styles.speed}>
-                        <span className={styles.accent}>Speed: </span>
-                        {speed ? speed : "Not found"}
-                      </p>
-                      <p className={styles.distance}>
-                        <span className={styles.accent}>Distance: </span>
-                        {distance ? `${distance} km` : "Not found"}
-                      </p>
-                      <p className={styles.time}>
-                        <span className={styles.accent}>Time: </span>
-                        {time ? `${time} min` : "Not found"}
-                      </p>
+            {!isModalOpen && filteredJogs.length ? (
+              filteredJogs.map(
+                ({ date, distance, time, speed, id, user_id }) => (
+                  <li key={id} className={styles.jogElementContainer}>
+                    <div
+                      title="Edit this jog"
+                      className={styles.jogElement}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setJogForUpdate({
+                          date,
+                          distance,
+                          time,
+                          speed,
+                          id,
+                          user_id,
+                        });
+                      }}
+                    >
+                      <div className={styles.iconContainer}>
+                        <img src={jogIcon} alt="Jogging guy" />
+                      </div>
+                      <div className={styles.jogInfo}>
+                        <p className={styles.date}>
+                          {date ? parceDate(date) : "Date not found"}
+                        </p>
+                        <p className={styles.speed}>
+                          <span className={styles.accent}>Speed: </span>
+                          {speed ? speed : "Not found"}
+                        </p>
+                        <p className={styles.distance}>
+                          <span className={styles.accent}>Distance: </span>
+                          {distance ? `${distance} km` : "Not found"}
+                        </p>
+                        <p className={styles.time}>
+                          <span className={styles.accent}>Time: </span>
+                          {time ? `${time} min` : "Not found"}
+                        </p>
+                      </div>
                     </div>
                   </li>
-                </div>
-              ))
+                )
+              )
             ) : (
               <div
                 className={`${styles.jogsPlaceholderContainer} ${styles.autoHeight}`}
@@ -133,7 +162,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
 
           <button
             className={`${buttons.btnRounded} ${buttons.btnPrimary} ${styles.addJogBtn}`}
-            onClick={() => setIsAddJogModalOpen(true)}
+            onClick={() => setIsModalOpen(true)}
           >
             <img src={more} alt="Add new jog" />
           </button>

@@ -2,42 +2,47 @@ import React, { FormEvent } from "react";
 import styles from "./styles.module.sass";
 import buttons from "styles/components/buttons.module.sass";
 import close from "static/icons/close.svg";
-import { JogItem } from "types";
+import { FormattedJogItem } from "types";
 import { parceDate } from "helpers";
 
-export interface ModalProps {
+export interface UpdateJogModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  addNewJog: (newJog: JogItem) => void;
+  putJog: (jog: FormattedJogItem) => void;
+  jogForUpdate: FormattedJogItem | null;
 }
 
-export const Modal: React.FunctionComponent<ModalProps> = ({
+export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
   isModalOpen,
   setIsModalOpen,
-  addNewJog,
+  putJog,
+  jogForUpdate,
 }) => {
-  const addJogHandler = (
+  const putJogHandler = (
     distance: number = 0,
     time: number = 0,
     date: Date = new Date()
   ) => {
-    const newJog: JogItem = {
-      date,
-      time,
-      distance,
-      speed: +(distance / time).toFixed(2),
-    };
-    addNewJog(newJog);
+    if (jogForUpdate) {
+      const newJog: FormattedJogItem = {
+        ...jogForUpdate,
+        date: date ? date : jogForUpdate.date,
+        time: time ? time : jogForUpdate.time,
+        distance: distance ? distance : jogForUpdate.distance,
+      };
+      putJog(newJog);
+    }
   };
 
   const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const elements = form.elements as any;
-    addJogHandler(
+
+    putJogHandler(
       elements.distance.value as number,
       elements.time.value as number,
-      elements.date.value as Date
+      new Date(elements.date.value) as Date
     );
     setIsModalOpen(false);
   };
@@ -57,19 +62,26 @@ export const Modal: React.FunctionComponent<ModalProps> = ({
             <input
               type="number"
               min={1}
+              defaultValue={jogForUpdate?.distance}
               className={styles.input}
               name="distance"
             />
           </div>
           <div className={styles.inputContainer}>
             <p className={styles.inputLabel}>Time</p>
-            <input type="number" min={1} className={styles.input} name="time" />
+            <input
+              type="number"
+              min={1}
+              className={styles.input}
+              name="time"
+              defaultValue={jogForUpdate?.time}
+            />
           </div>
           <div className={styles.inputContainer}>
             <p className={styles.inputLabel}>Date</p>
             <input
               type="date"
-              defaultValue={Date.now()}
+              defaultValue={parceDate(jogForUpdate?.date)}
               max={parceDate()}
               className={styles.input}
               name="date"

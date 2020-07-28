@@ -1,5 +1,4 @@
-import { JogItemFromAPI } from "api";
-import { JogItem } from "types";
+import { JogItemFromAPI, FormattedJogItem } from "types";
 
 export const parceDate = (date?: Date) => {
   return new Date(date ? date : Date.now()).toISOString().slice(0, 10);
@@ -18,13 +17,15 @@ export const isDateInRange = (
   );
 };
 
-export const formatJogs = (arr: JogItemFromAPI[]): JogItem[] =>
-  arr.map(({ date, distance, time }) => {
+export const formatJogs = (arr: JogItemFromAPI[]): FormattedJogItem[] =>
+  arr.map(({ date, distance, time, id, user_id }) => {
     return {
       date: new Date(date),
       distance,
       speed: +(distance / time).toFixed(2),
       time,
+      id,
+      user_id,
     };
   });
 
