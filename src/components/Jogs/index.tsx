@@ -22,7 +22,12 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
   putJog,
   isDatePickerOpen,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCreateJogModalOpen, setIsCreateJogModalOpen] = useState<boolean>(
+    false
+  );
+  const [isUpdateJogModalOpen, setIsUpdateJogModalOpen] = useState<boolean>(
+    false
+  );
   const [range, setRange] = useState<{ from: Date | null; to: Date | null }>({
     from: null,
     to: null,
@@ -39,13 +44,13 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
     <>
       <CreateJogModal
         addNewJog={addNewJog}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isCreateJogModalOpen}
+        setIsModalOpen={setIsCreateJogModalOpen}
       />
       <UpdateJogModal
         putJog={putJog}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isUpdateJogModalOpen}
+        setIsModalOpen={setIsUpdateJogModalOpen}
         jogForUpdate={jogForUpdate}
       />
       {!jogs.length ? (
@@ -57,7 +62,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
             </div>
             <button
               className={`${buttons.btnSecondary} ${styles.createFirstJogBtn}`}
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsCreateJogModalOpen(true)}
             >
               Create your first jog
             </button>
@@ -100,16 +105,20 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
             </div>
           )}
 
-          <ul className={styles.jogsList}>
-            {!isModalOpen && filteredJogs.length ? (
+          <ul
+            className={`${styles.jogsList} ${
+              (isCreateJogModalOpen || isUpdateJogModalOpen) && styles.hidden
+            }`}
+          >
+            {filteredJogs.length ? (
               filteredJogs.map(
                 ({ date, distance, time, speed, id, user_id }) => (
-                  <li key={id} className={styles.jogElementContainer}>
+                  <li key={id} className={`${styles.jogElementContainer}`}>
                     <div
                       title="Edit this jog"
                       className={styles.jogElement}
                       onClick={() => {
-                        setIsModalOpen(true);
+                        setIsUpdateJogModalOpen(true);
                         setJogForUpdate({
                           date,
                           distance,
@@ -162,7 +171,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
 
           <button
             className={`${buttons.btnRounded} ${buttons.btnPrimary} ${styles.addJogBtn}`}
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsCreateJogModalOpen(true)}
           >
             <img src={more} alt="Add new jog" />
           </button>
