@@ -4,7 +4,7 @@ import sadFace from "static/icons/sadFace.svg";
 import jogIcon from "static/icons/jogIcon.svg";
 import more from "static/icons/more.svg";
 import buttons from "styles/components/buttons.module.sass";
-import { parceDate, isDateInRange, formatJogs, findJogIndex } from "helpers";
+import { parceDate, isDateInRange, findJogIndex } from "helpers";
 import { JogItem, FormattedJogItem } from "types";
 import { CreateJogModal } from "components/Modals/CreateJogModal";
 import { UpdateJogModal } from "components/Modals/UpdateJogModal";
@@ -53,20 +53,22 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
       newJog.distance
     ).then((newJog) => setJogs([...jogs, newJog]));
 
-  const updateJogHandler = (existingJog: FormattedJogItem) =>
+  const updateJogHandler = (existingJog: FormattedJogItem) => {
+    setIsLoading(true);
     token &&
-    putJog(token, existingJog).then((updatedJog) => {
-      const updatedJogs = [...jogs];
-      const updatedJogIndex = findJogIndex(jogs, updatedJog.id);
-      updatedJogs[updatedJogIndex] = updatedJog;
-      setJogs(updatedJogs);
-    });
+      putJog(token, existingJog).then((updatedJog) => {
+        const updatedJogs = [...jogs];
+        const updatedJogIndex = findJogIndex(jogs, updatedJog.id);
+        updatedJogs[updatedJogIndex] = updatedJog;
+        setJogs(updatedJogs);
+        setIsLoading(false);
+      });
+  };
 
   const getJogsHandler = () => {
     setIsLoading(true);
     getJogs(token as string).then((jogsFromApi) => {
-      const formattedJogs = formatJogs(jogsFromApi);
-      setJogs([...formattedJogs]);
+      setJogs([...jogsFromApi]);
       setIsLoading(false);
     });
   };

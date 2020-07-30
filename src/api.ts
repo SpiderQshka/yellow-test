@@ -1,4 +1,4 @@
-import { JogItemFromAPI, FormattedJogItem } from "types";
+import { FormattedJogItem } from "types";
 import { formatJogs } from "helpers";
 
 export const UUID = "hello";
@@ -17,7 +17,7 @@ export const logIn = async (): Promise<string> => {
     .then((obj) => obj.response.access_token);
 };
 
-export const getJogs = async (token: string): Promise<JogItemFromAPI[]> => {
+export const getJogs = async (token: string): Promise<FormattedJogItem[]> => {
   return await fetch(`${BASEURL}data/sync?access_token=${token}`, {
     method: "GET",
     headers: {
@@ -26,7 +26,8 @@ export const getJogs = async (token: string): Promise<JogItemFromAPI[]> => {
     },
   })
     .then((response) => response.json())
-    .then((obj) => (obj.response.jogs ? obj.response.jogs : []));
+    .then((obj) => (obj.response.jogs ? obj.response.jogs : []))
+    .then((jogs) => formatJogs(jogs));
 };
 
 export const postJog = async (
