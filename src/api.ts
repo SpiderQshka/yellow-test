@@ -29,7 +29,7 @@ export const getJogs = async (token: string): Promise<JogItemFromAPI[]> => {
     .then((obj) => (obj.response.jogs ? obj.response.jogs : []));
 };
 
-export const setNewJog = async (
+export const postJog = async (
   token: string,
   date: string,
   time: number,
@@ -49,7 +49,7 @@ export const setNewJog = async (
     .then((jog) => formatJogs([jog])[0]);
 };
 
-export const updateExistingJog = async (
+export const putJog = async (
   token: string,
   jog: FormattedJogItem
 ): Promise<FormattedJogItem> => {

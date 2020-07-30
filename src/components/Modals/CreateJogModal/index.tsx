@@ -8,13 +8,13 @@ import { parceDate } from "helpers";
 export interface CreateJogModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  addNewJog: (newJog: JogItem) => void;
+  addJog: (newJog: JogItem) => void;
 }
 
 export const CreateJogModal: React.FunctionComponent<CreateJogModalProps> = ({
   isModalOpen,
   setIsModalOpen,
-  addNewJog,
+  addJog,
 }) => {
   const addJogHandler = (
     distance: number = 0,
@@ -26,7 +26,7 @@ export const CreateJogModal: React.FunctionComponent<CreateJogModalProps> = ({
       time,
       distance,
     };
-    addNewJog(newJog);
+    addJog(newJog);
   };
 
   const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {

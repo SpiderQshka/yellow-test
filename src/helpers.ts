@@ -20,7 +20,7 @@ export const isDateInRange = (
 export const formatJogs = (arr: JogItemFromAPI[]): FormattedJogItem[] =>
   arr.map(({ date, distance, time, id, user_id }) => {
     return {
-      date: new Date(date),
+      date: new Date(date * 1000),
       distance,
       speed: +(distance / time).toFixed(2),
       time,
@@ -29,8 +29,17 @@ export const formatJogs = (arr: JogItemFromAPI[]): FormattedJogItem[] =>
     };
   });
 
-export const getToken = (): string | null =>
+export const getTokenFromLocalStorage = (): string | null =>
   window.localStorage.getItem("token") || null;
 
-export const setToken = (token: string) =>
+export const setTokenToLocalStorage = (token: string) =>
   window.localStorage.setItem("token", token);
+
+export const findJogIndex = (jogs: FormattedJogItem[], jogId: number) => {
+  let updatedJogIndex: number = 0;
+  jogs.forEach((jog, i) => {
+    if (jog.id === jogId) updatedJogIndex = i;
+  });
+
+  return updatedJogIndex;
+};

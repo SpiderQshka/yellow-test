@@ -1,72 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles.module.sass";
 import sadFace from "static/icons/sadFace.svg";
 import jogIcon from "static/icons/jogIcon.svg";
 import more from "static/icons/more.svg";
 import buttons from "styles/components/buttons.module.sass";
-import { parceDate, isDateInRange } from "helpers";
+import { parceDate, isDateInRange, formatJogs, findJogIndex } from "helpers";
 import { JogItem, FormattedJogItem } from "types";
 import { CreateJogModal } from "components/Modals/CreateJogModal";
 import { UpdateJogModal } from "components/Modals/UpdateJogModal";
+import { getJogs, postJog, putJog } from "api";
+import { useAuth } from "context/auth";
+import { Loader } from "components/Loader";
 
 export interface JogsProps {
-  jogs: FormattedJogItem[];
-  addNewJog: (jog: JogItem) => void;
-  putJog: (jog: FormattedJogItem) => void;
   isDatePickerOpen: boolean;
 }
 
 export const Jogs: React.FunctionComponent<JogsProps> = ({
-  jogs,
-  addNewJog,
-  putJog,
   isDatePickerOpen,
 }) => {
+  const [jogs, setJogs] = useState<FormattedJogItem[]>([]);
+  const [jogForUpdate, setJogForUpdate] = useState<FormattedJogItem | null>(
+    null
+  );
+
+  const [range, setRange] = useState<{ from: Date | null; to: Date | null }>({
+    from: null,
+    to: null,
+  });
+
   const [isCreateJogModalOpen, setIsCreateJogModalOpen] = useState<boolean>(
     false
   );
   const [isUpdateJogModalOpen, setIsUpdateJogModalOpen] = useState<boolean>(
     false
   );
-  const [range, setRange] = useState<{ from: Date | null; to: Date | null }>({
-    from: null,
-    to: null,
-  });
-  const [jogForUpdate, setJogForUpdate] = useState<FormattedJogItem | null>(
-    null
-  );
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const { token } = useAuth();
 
   const filteredJogs = jogs.filter((jog) =>
     isDateInRange(jog.date, range.from, range.to)
   );
 
+  const addJogHandler = (newJog: JogItem) =>
+    token &&
+    postJog(
+      token,
+      parceDate(newJog.date),
+      newJog.time,
+      newJog.distance
+    ).then((newJog) => setJogs([...jogs, newJog]));
+
+  const updateJogHandler = (existingJog: FormattedJogItem) =>
+    token &&
+    putJog(token, existingJog).then((updatedJog) => {
+      const updatedJogs = [...jogs];
+      const updatedJogIndex = findJogIndex(jogs, updatedJog.id);
+      updatedJogs[updatedJogIndex] = updatedJog;
+      setJogs(updatedJogs);
+    });
+
+  const getJogsHandler = () => {
+    setIsLoading(true);
+    getJogs(token as string).then((jogsFromApi) => {
+      const formattedJogs = formatJogs(jogsFromApi);
+      setJogs([...formattedJogs]);
+      setIsLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    getJogsHandler();
+  }, []);
+
   return (
     <>
       <CreateJogModal
-        addNewJog={addNewJog}
+        addJog={addJogHandler}
         isModalOpen={isCreateJogModalOpen}
         setIsModalOpen={setIsCreateJogModalOpen}
       />
       <UpdateJogModal
-        putJog={putJog}
+        updateJog={updateJogHandler}
         isModalOpen={isUpdateJogModalOpen}
         setIsModalOpen={setIsUpdateJogModalOpen}
         jogForUpdate={jogForUpdate}
       />
       {!jogs.length ? (
         <div className={styles.jogsPlaceholderContainer}>
-          <div className={styles.jogsPlaceholder}>
-            <div className={styles.iconContainer}>
-              <img src={sadFace} alt="Sad face" className={styles.icon} />
-              <div className={styles.iconLabel}>Nothing is there</div>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div className={styles.jogsPlaceholder}>
+              <div className={styles.iconContainer}>
+                <img src={sadFace} alt="Sad face" className={styles.icon} />
+                <div className={styles.iconLabel}>Nothing is there</div>
+              </div>
+              <button
+                className={`${buttons.btnSecondary} ${styles.createFirstJogBtn}`}
+                onClick={() => setIsCreateJogModalOpen(true)}
+              >
+                Create your first jog
+              </button>
             </div>
-            <button
-              className={`${buttons.btnSecondary} ${styles.createFirstJogBtn}`}
-              onClick={() => setIsCreateJogModalOpen(true)}
-            >
-              Create your first jog
-            </button>
-          </div>
+          )}
         </div>
       ) : (
         <>
@@ -111,48 +150,39 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
             }`}
           >
             {filteredJogs.length ? (
-              filteredJogs.map(
-                ({ date, distance, time, speed, id, user_id }) => (
-                  <li key={id} className={`${styles.jogElementContainer}`}>
-                    <div
-                      title="Edit this jog"
-                      className={styles.jogElement}
-                      onClick={() => {
-                        setIsUpdateJogModalOpen(true);
-                        setJogForUpdate({
-                          date,
-                          distance,
-                          time,
-                          speed,
-                          id,
-                          user_id,
-                        });
-                      }}
-                    >
-                      <div className={styles.iconContainer}>
-                        <img src={jogIcon} alt="Jogging guy" />
-                      </div>
-                      <div className={styles.jogInfo}>
-                        <p className={styles.date}>
-                          {date ? parceDate(date) : "Date not found"}
-                        </p>
-                        <p className={styles.speed}>
-                          <span className={styles.accent}>Speed: </span>
-                          {speed ? speed : "Not found"}
-                        </p>
-                        <p className={styles.distance}>
-                          <span className={styles.accent}>Distance: </span>
-                          {distance ? `${distance} km` : "Not found"}
-                        </p>
-                        <p className={styles.time}>
-                          <span className={styles.accent}>Time: </span>
-                          {time ? `${time} min` : "Not found"}
-                        </p>
-                      </div>
+              filteredJogs.map((jog) => (
+                <li key={jog.id} className={`${styles.jogElementContainer}`}>
+                  <div
+                    title="Edit this jog"
+                    className={styles.jogElement}
+                    onClick={() => {
+                      setIsUpdateJogModalOpen(true);
+                      setJogForUpdate(jog);
+                    }}
+                  >
+                    <div className={styles.iconContainer}>
+                      <img src={jogIcon} alt="Jogging guy" />
                     </div>
-                  </li>
-                )
-              )
+                    <div className={styles.jogInfo}>
+                      <p className={styles.date}>
+                        {jog.date ? parceDate(jog.date) : "Date not found"}
+                      </p>
+                      <p className={styles.speed}>
+                        <span className={styles.accent}>Speed: </span>
+                        {jog.speed ? jog.speed : "Not found"}
+                      </p>
+                      <p className={styles.distance}>
+                        <span className={styles.accent}>Distance: </span>
+                        {jog.distance ? `${jog.distance} km` : "Not found"}
+                      </p>
+                      <p className={styles.time}>
+                        <span className={styles.accent}>Time: </span>
+                        {jog.time ? `${jog.time} min` : "Not found"}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              ))
             ) : (
               <div
                 className={`${styles.jogsPlaceholderContainer} ${styles.autoHeight}`}

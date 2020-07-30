@@ -8,14 +8,14 @@ import { parceDate } from "helpers";
 export interface UpdateJogModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  putJog: (jog: FormattedJogItem) => void;
+  updateJog: (jog: FormattedJogItem) => void;
   jogForUpdate: FormattedJogItem | null;
 }
 
 export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
   isModalOpen,
   setIsModalOpen,
-  putJog,
+  updateJog,
   jogForUpdate,
 }) => {
   const putJogHandler = (
@@ -30,7 +30,7 @@ export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
         time: time ? time : jogForUpdate.time,
         distance: distance ? distance : jogForUpdate.distance,
       };
-      putJog(newJog);
+      updateJog(newJog);
     }
   };
 

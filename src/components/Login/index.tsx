@@ -4,20 +4,15 @@ import bearFace from "static/icons/bearFace.svg";
 import buttons from "styles/components/buttons.module.sass";
 import { useHistory, Redirect } from "react-router-dom";
 import { logIn } from "api";
+import { useAuth } from "context/auth";
 
-export interface LoginProps {
-  token: string | null;
-  setTokenHandler: (token: string) => void;
-}
-
-export const Login: React.FunctionComponent<LoginProps> = ({
-  setTokenHandler,
-  token,
-}) => {
+export const Login: React.FunctionComponent = () => {
+  const auth = useAuth();
   const history = useHistory();
-  if (token) return <Redirect to="/jogs" />;
+
+  if (auth?.token) return <Redirect to="/jogs" />;
   const logInHandler = () => {
-    logIn().then((token) => setTokenHandler(token));
+    logIn().then((token) => auth?.setToken(token));
     history.push("/jogs");
   };
 
