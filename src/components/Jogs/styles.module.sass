@@ -30,47 +30,59 @@
 .datePickerContainer
     background-color: $color-neutral-light
     .datePickerContent
+        height: $date-picker-height
         max-width: 500px
-        padding: 15px 30px
+        padding: 0 30px
         margin: 0 auto
         display: flex
         align-items: center
         justify-content: space-between
         .inputContainer
+            text-align: center
+            &:first-of-type
+                margin-right: 15px
             .inputText
+                display: inline-block
                 color: $color-neutral
                 font-family: "SFUI Regular"
                 margin-right: 15px
+                margin-bottom: 5px
             .input
                 border-radius: 10px
                 border: 2px solid $color-neutral
-                padding: 10px
+                padding: 8px
 
-.jogsList
-    &.hidden
-        display: none
-    .jogElementContainer
-        border-bottom: 2px solid $color-neutral-light
-        .jogElement
-            display: flex
-            justify-content: space-between
-            align-items: center
-            padding: 45px 60px
-            max-width: 300px
-            margin: 0 auto
+.jogListContainer
+    height: calc(100vh - #{$header-height})
+    overflow: auto
+    &.openDatePicker
+        height: calc(100vh - #{$header-height} - #{$date-picker-height})
+    .jogsList
+        .jogElementContainer
+            border-bottom: 2px solid $color-neutral-light
             cursor: pointer
-            .iconContainer
-                max-width: 90px
-            .jogInfo
-                margin-left: 50px
-                .date, .speed, .distance, .time
-                    font-family: "SFUI Regular"
-                    color: $color-neutral
-                    margin-bottom: 10px
-                    .accent
-                        color: $color-neutral-dark
-                .time
-                    margin-bottom: 0
+            transition: .3s
+            &:hover
+                background-color: $color-neutral-light
+            .jogElement
+                display: flex
+                justify-content: space-between
+                align-items: center
+                padding: 45px 60px
+                max-width: 300px
+                margin: 0 auto
+                .iconContainer
+                    max-width: 90px
+                .jogInfo
+                    margin-left: 50px
+                    .date, .speed, .distance, .time
+                        font-family: "SFUI Regular"
+                        color: $color-neutral
+                        margin-bottom: 10px
+                        .accent
+                            color: $color-neutral-dark
+                    .time
+                        margin-bottom: 0
 .addJogBtn
     background-color: $color-neutral-lightest
     position: fixed
@@ -78,4 +90,4 @@
     right: 30px
 
 
-@import "./media"
+@import "./media.module"

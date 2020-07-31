@@ -13,7 +13,7 @@ export const isDateInRange = (date: Date, from: Date | null, to: Date | null) =>
 export const formatJogs = (arr: JogItemFromAPI[]): FormattedJogItem[] =>
   arr.map(({ date, distance, time, id, user_id }) => {
     return {
-      date: new Date(date * 1000),
+      date: typeof date === "string" ? date : new Date(date * 1000),
       distance,
       speed: +(distance / time).toFixed(2),
       time,

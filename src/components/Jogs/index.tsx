@@ -51,7 +51,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
       parceDate(newJog.date),
       newJog.time,
       newJog.distance
-    ).then((newJog) => setJogs([...jogs, newJog]));
+    ).then((newJog) => setJogs([newJog, ...jogs]));
 
   const updateJogHandler = (existingJog: FormattedJogItem) => {
     setIsLoading(true);
@@ -68,7 +68,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
   const getJogsHandler = () => {
     setIsLoading(true);
     getJogs(token as string).then((jogsFromApi) => {
-      setJogs([...jogsFromApi]);
+      setJogs([...jogsFromApi.reverse()]);
       setIsLoading(false);
     });
   };
@@ -145,61 +145,63 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
               </div>
             </div>
           )}
-
-          <ul
-            className={`${styles.jogsList} ${
-              (isCreateJogModalOpen || isUpdateJogModalOpen) && styles.hidden
-            }`}
-          >
-            {filteredJogs.length ? (
-              filteredJogs.map((jog) => (
-                <li key={jog.id} className={`${styles.jogElementContainer}`}>
-                  <div
+          {filteredJogs.length ? (
+            <div
+              className={`${styles.jogListContainer} ${
+                isDatePickerOpen && styles.openDatePicker
+              }`}
+            >
+              <ul className={styles.jogsList}>
+                {filteredJogs.map((jog) => (
+                  <li
+                    key={jog.id}
+                    className={styles.jogElementContainer}
                     title="Edit this jog"
-                    className={styles.jogElement}
                     onClick={() => {
-                      setIsUpdateJogModalOpen(true);
                       setJogForUpdate(jog);
+                      setIsUpdateJogModalOpen(true);
                     }}
                   >
-                    <div className={styles.iconContainer}>
-                      <img src={jogIcon} alt="Jogging guy" />
+                    <div className={styles.jogElement}>
+                      <div className={styles.iconContainer}>
+                        <img src={jogIcon} alt="Jogging guy" />
+                      </div>
+                      <div className={styles.jogInfo}>
+                        <p className={styles.date}>
+                          {jog.date ? parceDate(jog.date) : "Date not found"}
+                        </p>
+                        <p className={styles.speed}>
+                          <span className={styles.accent}>Speed: </span>
+                          {jog.speed ? jog.speed : "Not found"}
+                        </p>
+                        <p className={styles.distance}>
+                          <span className={styles.accent}>Distance: </span>
+                          {jog.distance ? `${jog.distance} km` : "Not found"}
+                        </p>
+                        <p className={styles.time}>
+                          <span className={styles.accent}>Time: </span>
+                          {jog.time ? `${jog.time} min` : "Not found"}
+                        </p>
+                      </div>
                     </div>
-                    <div className={styles.jogInfo}>
-                      <p className={styles.date}>
-                        {jog.date ? parceDate(jog.date) : "Date not found"}
-                      </p>
-                      <p className={styles.speed}>
-                        <span className={styles.accent}>Speed: </span>
-                        {jog.speed ? jog.speed : "Not found"}
-                      </p>
-                      <p className={styles.distance}>
-                        <span className={styles.accent}>Distance: </span>
-                        {jog.distance ? `${jog.distance} km` : "Not found"}
-                      </p>
-                      <p className={styles.time}>
-                        <span className={styles.accent}>Time: </span>
-                        {jog.time ? `${jog.time} min` : "Not found"}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              ))
-            ) : (
-              <div
-                className={`${styles.jogsPlaceholderContainer} ${styles.autoHeight}`}
-              >
-                <div className={styles.jogsPlaceholder}>
-                  <div className={styles.iconContainer}>
-                    <img src={sadFace} alt="Sad face" className={styles.icon} />
-                    <div className={styles.iconLabel}>
-                      You don't have any jogs in this period
-                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div
+              className={`${styles.jogsPlaceholderContainer} ${styles.autoHeight}`}
+            >
+              <div className={styles.jogsPlaceholder}>
+                <div className={styles.iconContainer}>
+                  <img src={sadFace} alt="Sad face" className={styles.icon} />
+                  <div className={styles.iconLabel}>
+                    You don't have any jogs in this period
                   </div>
                 </div>
               </div>
-            )}
-          </ul>
+            </div>
+          )}
 
           <button
             className={`${buttons.btnRounded} ${buttons.btnPrimary} ${styles.addJogBtn}`}

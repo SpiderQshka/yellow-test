@@ -1,5 +1,5 @@
 import React, { FormEvent } from "react";
-import styles from "./styles.module.sass";
+import styles from "../styles.module.sass";
 import buttons from "styles/components/buttons.module.sass";
 import close from "static/icons/close.svg";
 import { FormattedJogItem } from "types";
@@ -48,15 +48,15 @@ export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
   };
 
   return isModalOpen ? (
-    <div className={styles.addJogModalContainer}>
-      <div className={styles.addJogModal}>
+    <div className={styles.modalContainer}>
+      <div className={styles.modal}>
         <button
           className={`${buttons.btnFab} ${styles.closeModalBtn}`}
           onClick={() => setIsModalOpen(false)}
         >
           <img src={close} alt="Close" />
         </button>
-        <form className={styles.addJogForm} onSubmit={formSubmitHandler}>
+        <form className={styles.form} onSubmit={formSubmitHandler}>
           <div className={styles.inputContainer}>
             <p className={styles.inputLabel}>Distance</p>
             <input

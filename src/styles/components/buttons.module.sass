@@ -1,6 +1,7 @@
 @import '../config'
     
 %btn-shared
+    position: relative
     border: 3px solid $color-neutral-lightest
     background-color: inherit
     color: $color-neutral-lightest
@@ -10,6 +11,7 @@
     padding: 20px 35px
     cursor: pointer
     font-family: "SFUI Bold"
+    transition: .3s
 
 .btnRounded
     @extend %btn-shared
@@ -23,6 +25,9 @@
 
 .btnNeutral
     @extend %btn-shared
+    &:hover
+        background-color: $color-neutral-lightest
+        color: $color-primary
 
 .btnFullWidth
     width: 100%
@@ -31,6 +36,9 @@
     @extend %btn-shared
     color: $color-primary
     border-color: $color-primary
+    &:hover
+        background-color: $color-neutral-light
+
 
 .btnSecondary
     @extend %btn-shared

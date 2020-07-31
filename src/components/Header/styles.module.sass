@@ -3,6 +3,8 @@
 .header
     width: 100%
     background-color: $color-primary
+    position: relative
+    z-index: 9999
     .headerContent
         height: $header-height
         padding: 0 25px
@@ -18,8 +20,8 @@
                 margin-left: auto
                 .filterBtn
                     max-width: 40px
+                    margin: 0 40px
                 .menuBtn
-                    margin-left: 40px
                     max-width: 40px
             .menuDesktop
                 display: none
@@ -32,10 +34,9 @@
                     color: $color-neutral-lightest
                     text-transform: uppercase
                     font-size: 15px
-                    &:last-of-type
-                        margin-right: 40px
-                .item.active
                     &::after
+                        transition: .3s
+                        opacity: 0
                         content: ""
                         height: 2px
                         position: absolute
@@ -43,6 +44,14 @@
                         left: 0
                         width: 100%
                         background-color: $color-neutral-lightest
+                    &:last-of-type
+                        margin-right: 40px
+                    &:hover
+                        &::after
+                            opacity: 1
+                .item.active
+                    &::after
+                        opacity: 1
             .menuMobile
                 position: absolute
                 top: $header-height
@@ -63,6 +72,9 @@
                     font-size: 30px
                     text-transform: uppercase
                     color: $color-neutral-dark
+                    transition: .3s
+                    &:hover
+                        color: $color-primary
                 .item.active
                     color: $color-primary
         .navigation.hide
