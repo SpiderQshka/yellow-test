@@ -195,9 +195,9 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
               <div className={styles.jogsPlaceholder}>
                 <div className={styles.iconContainer}>
                   <img src={sadFace} alt="Sad face" className={styles.icon} />
-                  <div className={styles.iconLabel}>
+                  <p className={styles.iconLabel}>
                     You don't have any jogs in this period
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>

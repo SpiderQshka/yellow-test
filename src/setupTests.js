@@ -10,4 +10,5 @@ jest.mock("react-router-dom", () => ({
   useLocation: () => ({
     pathname: "/",
   }),
+  Link: (props) => props.children,
 }));

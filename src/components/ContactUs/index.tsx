@@ -3,7 +3,7 @@ import styles from "./styles.module.sass";
 
 export const ContactUs: React.FunctionComponent = () => {
   return (
-    <div className={styles.infoContainer}>
+    <div className={styles.contactUsContainer}>
       <h1 className={styles.header}>Contact Us</h1>
       <p className={styles.content}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste voluptas

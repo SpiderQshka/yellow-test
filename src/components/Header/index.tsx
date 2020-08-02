@@ -26,11 +26,7 @@ export const Header: React.FunctionComponent<HeaderProps> = ({
       <div className={styles.headerContent}>
         <div className={styles.logoContainer}>
           <Link to="/" onClick={() => setIsMenuOpen(false)}>
-            <img
-              src={isMenuOpen ? logoActive : logo}
-              alt="LogoBear"
-              className="logo"
-            />
+            <img src={isMenuOpen ? logoActive : logo} alt="LogoBear" />
           </Link>
         </div>
         <nav
@@ -67,7 +63,7 @@ export const Header: React.FunctionComponent<HeaderProps> = ({
               </Link>
             </li>
           </ul>
-          <div className={`${styles.btnsContainer}`}>
+          <div className={styles.btnsContainer}>
             <button
               className={`${buttons.btnFab} ${styles.filterBtn}`}
               onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}

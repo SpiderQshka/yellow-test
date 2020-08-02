@@ -11,6 +11,7 @@ export const Login: React.FunctionComponent = () => {
   const history = useHistory();
 
   if (auth?.token) return <Redirect to="/jogs" />;
+
   const logInHandler = () => {
     logIn().then((token) => auth?.setToken(token));
     history.push("/jogs");
