@@ -1,9 +1,10 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import styles from "../styles.module.sass";
 import buttons from "styles/components/buttons.module.sass";
 import close from "static/icons/close.svg";
 import { FormattedJogItem } from "types";
 import { parceDate } from "scripts/helpers";
+import error from "static/icons/error.svg";
 
 export interface UpdateJogModalProps {
   isModalOpen: boolean;
@@ -18,6 +19,7 @@ export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
   updateJog,
   jogForUpdate,
 }) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const putJogHandler = (
     distance: number = 0,
     time: number = 0,
@@ -38,6 +40,13 @@ export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const elements = form.elements as any;
+
+    if (
+      !elements.distance.value.match(/\D/) ||
+      !elements.time.value.match(/\D/)
+    )
+      setErrorMessage("The form fields are filled in with errors");
+    else setErrorMessage(null);
 
     putJogHandler(
       elements.distance.value as number,
@@ -65,6 +74,7 @@ export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
               defaultValue={jogForUpdate?.distance}
               className={styles.input}
               name="distance"
+              required
             />
           </div>
           <div className={styles.inputContainer}>
@@ -75,6 +85,7 @@ export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
               className={styles.input}
               name="time"
               defaultValue={jogForUpdate?.time}
+              required
             />
           </div>
           <div className={styles.inputContainer}>
@@ -85,8 +96,15 @@ export const UpdateJogModal: React.FunctionComponent<UpdateJogModalProps> = ({
               max={parceDate()}
               className={styles.input}
               name="date"
+              required
             />
           </div>
+          {errorMessage && (
+            <div className={styles.errorContainer}>
+              <img src={error} alt="Error!" className={styles.errorIcon} />
+              <p className={styles.errorMessage}>{errorMessage}</p>
+            </div>
+          )}
           <button
             type="submit"
             className={`${buttons.btnNeutral} ${buttons.btnFullWidth}`}

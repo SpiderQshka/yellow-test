@@ -206,6 +206,7 @@ export const Jogs: React.FunctionComponent<JogsProps> = ({
           <button
             className={`${buttons.btnRounded} ${buttons.btnPrimary} ${styles.addJogBtn}`}
             onClick={() => setIsCreateJogModalOpen(true)}
+            title="Add new jog"
           >
             <img src={more} alt="Add new jog" />
           </button>
