@@ -67,6 +67,9 @@ export const Header: React.FunctionComponent<HeaderProps> = ({
             <button
               className={`${buttons.btnFab} ${styles.filterBtn}`}
               onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
+              title={
+                isDatePickerOpen ? "Close date picker" : "Open date picker"
+              }
             >
               <img
                 src={isDatePickerOpen ? filterActive : filter}
@@ -76,6 +79,7 @@ export const Header: React.FunctionComponent<HeaderProps> = ({
             <button
               className={`${buttons.btnFab} ${styles.menuBtn}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              title={isMenuOpen ? "Close menu" : "Open menu"}
             >
               <img src={isMenuOpen ? closeDark : menu} alt="Menu" />
             </button>

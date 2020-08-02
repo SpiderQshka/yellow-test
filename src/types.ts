@@ -17,3 +17,8 @@ export interface FormattedJogItem extends JogItem {
   id: number;
   user_id: number;
 }
+
+export interface IContext {
+  token: string | null;
+  setToken: (token: string) => void;
+}

@@ -1,9 +1,5 @@
 import { createContext, useContext } from "react";
-
-export interface IContext {
-  token: string | null;
-  setToken: (token: string) => void;
-}
+import { IContext } from "types";
 
 export const AuthContext = createContext<IContext>({} as IContext);
 

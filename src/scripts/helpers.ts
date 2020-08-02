@@ -1,5 +1,4 @@
 import { JogItemFromAPI, FormattedJogItem } from "types";
-import { useEffect, useRef } from "react";
 
 export const parceDate = (date?: Date) =>
   new Date(date ? date : Date.now()).toISOString().slice(0, 10);
@@ -35,20 +34,4 @@ export const findJogIndex = (jogs: FormattedJogItem[], jogId: number) => {
   });
 
   return updatedJogIndex;
-};
-
-export const useTraceUpdate = (props: any) => {
-  const prev = useRef(props);
-  useEffect(() => {
-    const changedProps = Object.entries(props).reduce((ps: any, [k, v]) => {
-      if (prev.current[k] !== v) {
-        ps[k] = [prev.current[k], v];
-      }
-      return ps;
-    }, {});
-    if (Object.keys(changedProps).length > 0) {
-      console.log("Changed props:", changedProps);
-    }
-    prev.current = props;
-  });
 };

@@ -1,5 +1,5 @@
 import { FormattedJogItem } from "types";
-import { formatJogs } from "helpers";
+import { formatJogs } from "scripts/helpers";
 
 export const UUID = "hello";
 export const BASEURL = "https://jogtracker.herokuapp.com/api/v1/";

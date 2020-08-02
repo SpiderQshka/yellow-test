@@ -4,11 +4,11 @@ import sadFace from "static/icons/sadFace.svg";
 import jogIcon from "static/icons/jogIcon.svg";
 import more from "static/icons/more.svg";
 import buttons from "styles/components/buttons.module.sass";
-import { parceDate, isDateInRange, findJogIndex } from "helpers";
+import { parceDate, isDateInRange, findJogIndex } from "scripts/helpers";
 import { JogItem, FormattedJogItem } from "types";
 import { CreateJogModal } from "components/Modals/CreateJogModal";
 import { UpdateJogModal } from "components/Modals/UpdateJogModal";
-import { getJogs, postJog, putJog } from "api";
+import { getJogs, postJog, putJog } from "scripts/api";
 import { useAuth } from "context/auth";
 import { Loader } from "components/Loader";
 

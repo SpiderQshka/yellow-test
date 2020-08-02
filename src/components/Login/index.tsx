@@ -3,7 +3,7 @@ import styles from "./styles.module.sass";
 import bearFace from "static/icons/bearFace.svg";
 import buttons from "styles/components/buttons.module.sass";
 import { useHistory, Redirect } from "react-router-dom";
-import { logIn } from "api";
+import { logIn } from "scripts/api";
 import { useAuth } from "context/auth";
 
 export const Login: React.FunctionComponent = () => {

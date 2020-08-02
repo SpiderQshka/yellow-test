@@ -3,7 +3,7 @@ import styles from "../styles.module.sass";
 import buttons from "styles/components/buttons.module.sass";
 import close from "static/icons/close.svg";
 import { JogItem } from "types";
-import { parceDate } from "helpers";
+import { parceDate } from "scripts/helpers";
 
 export interface CreateJogModalProps {
   isModalOpen: boolean;

@@ -7,8 +7,11 @@ import { Redirect, Switch, Route } from "react-router-dom";
 import { Info } from "components/Info";
 import { AuthContext } from "context/auth";
 import { ContactUs } from "components/ContactUs";
-import { getTokenFromLocalStorage, setTokenToLocalStorage } from "helpers";
-import { PrivateRoute } from "PrivateRoute";
+import {
+  getTokenFromLocalStorage,
+  setTokenToLocalStorage,
+} from "scripts/helpers";
+import { PrivateRoute } from "components/PrivateRoute";
 
 const App: React.FunctionComponent = () => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
